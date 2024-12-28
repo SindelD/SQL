@@ -1,0 +1,46 @@
+#Performed analysis on Spotify data from Kaggle
+
+#Table Construction
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL )
+
+#Analysis Performed
+--Sort tracks by acousticness
+SELECT id, track_name
+FROM BIT_DB.Spotifydata
+ORDER BY acousticness desc;
+
+--Sort artists by the number of tracks they have in the top 50
+SELECT artist_name, COUNT(artist_name) AS tracks_present
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY tracks_present desc;
+
+--Count number of songs on list in minor key (0) and major key (1)
+SELECT song_mode, COUNT(song_mode) AS mode_count
+FROM BIT_DB.Spotifydata
+GROUP BY song_mode;
+
+--Return average danceability, energy, and loudness by artist
+SELECT artist_name, ROUND(AVG(danceability), 2), ROUND(AVG(energy), 2), ROUND(AVG(loudness), 2)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name;
+
+
