@@ -43,4 +43,14 @@ SELECT artist_name, ROUND(AVG(danceability), 2), ROUND(AVG(energy), 2), ROUND(AV
 FROM BIT_DB.Spotifydata
 GROUP BY artist_name;
 
+--Calculates average popularity for artists, then labels artists with a popularity score of 90+ as Top Stars
+WITH tempTable AS(
+SELECT artist_name, AVG(popularity) AS avg_popularity, 'Top Star' AS tag
+FROM Spotifydata
+GROUP BY artist_name
+)
+SELECT artist_name, avg_popularity
+FROM tempTable
+WHERE avg_popularity >= 90;
+
 
